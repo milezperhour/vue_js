@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <p>{{ title | uppercase | lowercase }}</p>
+    <p>{{ message | uppercase }}</p>
+</div>
+
+<script>
+    Vue.filter('uppercase', function(value){
+        return value.toUpperCase();
+    });
+
+    new Vue({
+        el: '#app',
+        data: {
+            title: 'Hello world',
+            message: 'something'
+        },
+        computed: {
+            theTitle: function(){
+                return this.title.toUpperCase();
+            }
+        },
+        filters: {
+            lowercase: function(value){
+                return value.toLowerCase();
+            }
+        }
+    });
+
+    /*Use computed properties as opposed to filters if you can, becasue they offer better performance*/
+</script>
+</body>
+</html>

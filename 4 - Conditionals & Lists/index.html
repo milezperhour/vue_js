@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <button @click="show = !show">Show / Hide</button>
+    <!--v-if removes from the dom completely-->
+    <p v-if="show">I'm part-time visible</p>
+    <p v-else>Am I visible?</p>
+    <!--v-show changes to display:none-->
+    <p v-show="show">I'm here!</p>
+    <hr>
+    <ul>
+        <li v-for="(person, index) in persons">{{ person.name }} - {{ index }}</li>
+    </ul>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            show: true,
+            persons: [
+                {name: 'Chris', age: 58},
+                {name: 'Emily', age: 26},
+                {name: 'Charles', age: 23},
+            ]
+        }
+    });
+</script>
+</body>
+</html>
