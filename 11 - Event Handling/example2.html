@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <h1>{{ message }}</h1>
+    <p>
+        Visit: <a :href="url">{{ cleanUrl }}</a>
+    </p>
+    <input type="text" v-model="url">
+    <button @click="humanizeUrl">Humanize Me</button>
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'hello world',
+            url: '',
+            cleanUrl: ''
+        },
+        methods: {
+            humanizeUrl: function() {
+                this.cleanUrl = this.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+            }
+        }
+
+    });
+</script>
+</body>
+</html>
