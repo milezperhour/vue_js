@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <h1>Count: {{ count }}</h1>
+        <!--<input type="text" v-model="message">-->
+        <button @click="countUp" >Count Up</button>
+        <button @click="countDown" >Count Down</button>
+    </div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            message: 'hello world',
+            count: 0
+        },
+        methods: {
+            countUp: function(){
+                this.count += 1;
+            },
+            countDown: function(){
+                this.count -= 1;
+            }
+        }
+    });
+</script>
+</body>
+</html>
