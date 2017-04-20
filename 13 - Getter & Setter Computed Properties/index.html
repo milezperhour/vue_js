@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://unpkg.com/vue"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <title>Document</title>
+</head>
+<body>
+<div id="app" class="container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1>Hello {{ fullName }}</h1>
+            <ul class="text-left">
+                <li>First Name: {{ first }}</li>
+                <li>Last name: {{ last }}</li>
+            </ul>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <lable>Full Name: </lable>
+            <input type="text" class="form-control" v-model="fullName">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>First Name:</label>
+                <input type="text" class="form-control" v-model="first">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Last Name:</label>
+                <input type="text" class="form-control" v-model="last">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            first: '',
+            last: '',
+        },
+        computed: {
+            fullName: {
+                // getter function
+                get: function () {
+                    return this.first + ' ' + this.last;
+                },
+                set: function(value){
+                    var name = value.split(' ');
+                    //Miles Bretall
+                    // name[0] = "Miles"
+                    // name[1] = "Bretall"
+                    this.first = name[0];
+                    this.last = name[name.length - 1];
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
