@@ -19,12 +19,12 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Starting Zip">
-                                <span class="city-span"></span>
+                                <input type="text" class="form-control" placeholder="Starting Zip" v-model="startingZip">
+                                <span class="city-span">{{ startingCity }}</span>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Ending Zip">
-                                <span class="city-span"></span>
+                                <input type="text" class="form-control" placeholder="Ending Zip" v-model="endingZip">
+                                <span class="city-span">{{ endingZip }}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -45,7 +45,35 @@
 
 <script>
     var app = new Vue({
-        el: '#app'
+        el: '#app',
+        data: {
+            startingZip: '',
+            startingCity: '',
+            endingZip: '',
+            endingCity: ''
+        },
+        watch: {
+            startingZip: function(){
+                this.startingCity = '';
+                if (this.startingZip.length == 5){
+                    //call API method
+                    this.lookupStartingZip();
+                }
+            }
+        },
+        methods: {
+            lookupStartingZip: _.debounce(function(){
+                var self = this;
+                self.startingCity = "Searching...";
+                axios.get('http://ziptasticapi.com/' + self.startingZip)
+                        .then(function(response){
+                            self.startingCity = response.data.city + ', ' + response.data.state;
+                        })
+                        .catch(function(error){
+                            self.startingCity = "Invalid Zipcode";
+                        })
+            }, 500)
+        }
     })
 </script>
 </html>
