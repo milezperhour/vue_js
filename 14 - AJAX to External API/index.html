@@ -24,7 +24,7 @@
                             </div>
                             <div class="col-md-6">
                                 <input type="text" class="form-control" placeholder="Ending Zip" v-model="endingZip">
-                                <span class="city-span">{{ endingZip }}</span>
+                                <span class="city-span">{{ endingCity }}</span>
                             </div>
                         </div>
                         <div class="row">
@@ -59,6 +59,13 @@
                     //call API method
                     this.lookupStartingZip();
                 }
+            },
+            endingZip: function(){
+                this.endingCity = '';
+                if (this.endingZip.length == 5){
+                    //call API method
+                    this.lookupEndingZip();
+                }
             }
         },
         methods: {
@@ -71,6 +78,17 @@
                         })
                         .catch(function(error){
                             self.startingCity = "Invalid Zipcode";
+                        })
+            }, 500),
+            lookupEndingZip: _.debounce(function(){
+                var self = this;
+                self.endingCity = "Searching...";
+                axios.get('http://ziptasticapi.com/' + self.endingZip)
+                        .then(function(response){
+                            self.endingCity = response.data.city + ', ' + response.data.state;
+                        })
+                        .catch(function(error){
+                            self.endingCity = "Invalid Zipcode";
                         })
             }, 500)
         }
