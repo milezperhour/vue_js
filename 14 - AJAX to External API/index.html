@@ -5,7 +5,6 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://unpkg.com/vue"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
     <title>Document</title>
@@ -20,17 +19,17 @@
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Starting Zip">
-                                <span class="city-span"></span>
+                                <input type="text" class="form-control" placeholder="Starting Zip" v-model="startingZip">
+                                <span class="city-span">{{ startingCity }}</span>
                             </div>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Ending Zip">
-                                <span class="city-span"></span>
+                                <input type="text" class="form-control" placeholder="Ending Zip" v-model="endingZip">
+                                <span class="city-span">{{ endingCity }}</span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-block" id="submit-form"></button>
+                                <button class="btn btn-primary btn-block" id="submit-form">Submit</button>
                             </div>
                         </div>
                     </div><!--End of .lead-form-->
@@ -39,4 +38,60 @@
         </div><!--End of .container-->
     </div><!--End of #app-->
 </body>
+
+<script src="https://unpkg.com/vue"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script> <!--Allows for API requests-->
+<script src="https://unpkg.com/lodash/lodash.min.js"></script> <!--helper functions for javascript-->
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            startingZip: '',
+            startingCity: '',
+            endingZip: '',
+            endingCity: ''
+        },
+        watch: {
+            startingZip: function(){
+                this.startingCity = '';
+                if (this.startingZip.length == 5){
+                    //call API method
+                    this.lookupStartingZip();
+                }
+            },
+            endingZip: function(){
+                this.endingCity = '';
+                if (this.endingZip.length == 5){
+                    //call API method
+                    this.lookupEndingZip();
+                }
+            }
+        },
+        methods: {
+            lookupStartingZip: _.debounce(function(){
+                var self = this;
+                self.startingCity = "Searching...";
+                axios.get('http://ziptasticapi.com/' + self.startingZip)
+                        .then(function(response){
+                            self.startingCity = response.data.city + ', ' + response.data.state;
+                        })
+                        .catch(function(error){
+                            self.startingCity = "Invalid Zipcode";
+                        })
+            }, 500),
+            lookupEndingZip: _.debounce(function(){
+                var self = this;
+                self.endingCity = "Searching...";
+                axios.get('http://ziptasticapi.com/' + self.endingZip)
+                        .then(function(response){
+                            self.endingCity = response.data.city + ', ' + response.data.state;
+                        })
+                        .catch(function(error){
+                            self.endingCity = "Invalid Zipcode";
+                        })
+            }, 500)
+        }
+    })
+</script>
 </html>
