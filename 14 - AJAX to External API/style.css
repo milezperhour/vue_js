@@ -1,3 +1,8 @@
 .btn-block {
     margin-top: 20px;
 }
+
+.lead-form {
+    position: relative;
+    top: 200px;
+}
