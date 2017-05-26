@@ -6,3 +6,8 @@
     position: relative;
     top: 200px;
 }
+
+.btn-primary {
+    background-color: #00C196;
+    border-color: #00C196;
+}
